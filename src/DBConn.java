@@ -6,8 +6,8 @@ public abstract class DBConn {
     }
     public void connect() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/?autoReconnect=true&useSSL=false", "root", "root");
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/DBProsjekt?autoReconnect=true&useSSL=false", "root", "root");
         } catch (Exception e)
         {
             throw new RuntimeException("Unable to connect", e);
