@@ -1,0 +1,1 @@
+select * from øvelse natural join ØvelseUtenApparat
