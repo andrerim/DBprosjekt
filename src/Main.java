@@ -22,7 +22,12 @@ public class Main {
                 ApparatHandler apparat = new ApparatHandler();
                 apparat.connect();
                 apparat.registerApparat();
+            } else if (input_from_user.equals("Registrer øvelse")){
+                OvelseHandler ovelse = new OvelseHandler();
+                ovelse.connect();
+                ovelse.registrerOvelse();
             }
+
 
             System.out.println("What do yo want to do?: ");
             input_from_user = bruker_input.nextLine();

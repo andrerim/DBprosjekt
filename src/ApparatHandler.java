@@ -23,7 +23,27 @@ public class ApparatHandler extends DBConn {
         } catch (Exception e){
             System.out.println("DB error during registration of Apparat");
         }
+    }
+
+    public int getApparatID(String apparatNavn){
+        String sqlstmt = "SELECT ApparatID FROM apparat WHERE navn = (?)";
 
 
+        int apparatID = 0;
+        try {
+            PreparedStatement get_stmt = conn.prepareStatement(sqlstmt);
+            get_stmt.setString(1, apparatNavn);
+            ResultSet rs = get_stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (rs.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    apparatID = Integer.parseInt(rs.getString(i));
+                }
+            }
+        } catch (Exception e){
+            System.out.println("DB error while getting apparatID");
+        }
+        return apparatID;
     }
 }
