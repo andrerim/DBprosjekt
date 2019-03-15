@@ -49,7 +49,22 @@ public class RegOekt extends DBConn {
         }
     }
 
-    public String getOekt(){
-        return " ";
+    public void printOekt(){
+        try{
+            PreparedStatement stmt = conn.prepareStatement("select * from økt");
+            ResultSet rs = stmt.executeQuery();
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            while (rs.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    if (i > 1) System.out.print(",  ");
+                    String columnValue = rs.getString(i);
+                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
+                }
+                System.out.println(" ");
+            }
+        } catch (Exception e){
+            System.out.println("DB error during retriving Økt");
+        }
     }
 }
