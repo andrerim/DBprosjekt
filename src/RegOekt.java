@@ -51,20 +51,23 @@ public class RegOekt extends DBConn {
 
     public void printOekt(){
         try{
-            PreparedStatement stmt = conn.prepareStatement("select * from økt");
+            System.out.println("Hvor mange økter vil du hente?");
+            Scanner antallØkterInput = new Scanner(System.in);
+            int antallØkter = Integer.parseInt(antallØkterInput.nextLine());
+            PreparedStatement stmt = conn.prepareStatement("select Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat from Økt order by Dato, Tidspunkt limit " + antallØkter );
             ResultSet rs = stmt.executeQuery();
             ResultSetMetaData rsmd = rs.getMetaData();
             int columnsNumber = rsmd.getColumnCount();
             while (rs.next()) {
                 for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print(",  ");
+                    if (i > 1) System.out.print("  ");
                     String columnValue = rs.getString(i);
-                    System.out.print(columnValue + " " + rsmd.getColumnName(i));
+                    System.out.print(rsmd.getColumnName(i) + ": " + columnValue) ;
                 }
                 System.out.println(" ");
             }
         } catch (Exception e){
-            System.out.println("DB error during retriving Økt");
+            System.out.println("DB error during retriving Økt" + e);
         }
     }
 }

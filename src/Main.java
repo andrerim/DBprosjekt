@@ -12,7 +12,7 @@ public class Main {
             switch (input_from_user.toLowerCase()) {
                 case "registrer økt": registrerØkt();
                 break;
-                case "read økt": readØkt();
+                case "hent økter": readØkt();
                 break;
                 case "registrer apparat": registrerApparat();
                 break;
@@ -47,7 +47,7 @@ public class Main {
 
     public void nyInput() {
         System.out.println("What do yo want to do?");
-        System.out.println("Registrer økt / Read økt / Registrer apparat / Registrer øvelse (-1 to exit)");
+        System.out.println("Registrer økt / Hent økter / Registrer apparat / Registrer øvelse (-1 to exit)");
     }
     public void user_input_interpeter(String user_input){
 
