@@ -16,7 +16,7 @@ public class Main {
                 break;
                 case "registrer apparat": registrerApparat();
                 break;
-                case "registrer": registrerØvelse();
+                case "registrer øvelse": registrerØvelse();
                 break;
             }
             nyInput();

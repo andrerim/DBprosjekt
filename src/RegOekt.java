@@ -43,6 +43,9 @@ public class RegOekt extends DBConn {
 
 
            register_stmt.executeUpdate();
+           PrintFromDB p = new PrintFromDB();
+           sqlstmt = "SELECT * from økt WHERE ØktID = (select max(ØktID) from øktID);";
+           p.printLatestInsertFromTable(sqlstmt);
 
         } catch (Exception e) {
             System.out.println("DB error during registration of Økt" + e);

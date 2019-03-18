@@ -34,7 +34,7 @@ public class OvelseHandler extends DBConn {
         if (ovelse_type.equals("ja")){
             registrerOvelseMedApparat(ovelseKey);
         } else {
-            ovelse_type = "øvelseutenapparat";
+            registrerOvelseUtenApparat(ovelseKey);
         }
     }
 
@@ -64,11 +64,41 @@ public class OvelseHandler extends DBConn {
             System.out.println("Hvor mange set? ");
             int antallSet = Integer.parseInt(bruker_input.nextLine());
             register_stmt.setInt(4, antallSet);
+            register_stmt.executeUpdate();
 
+            PrintFromDB p = new PrintFromDB();
+            sqlstmt = "SELECT * from øvelsemedapparat natural join øvelse WHERE ØvelseID = (select max(ØvelseID) from øvelsemedapparat)";
+            p.printLatestInsertFromTable(sqlstmt);
 
         } catch (Exception e) {
             System.out.println("DB error during registration of ovelse");
         }
     }
 
+    public void registrerOvelseUtenApparat(int ovelseKey){
+        String sqlstmt = "INSERT INTO øvelseutenapparat (ØvelseID, Beskrivelse) VALUES (?, ?)";
+
+        Scanner bruker_input = new Scanner(System.in);
+
+        try {
+            register_stmt = conn.prepareStatement(sqlstmt);
+
+            register_stmt.setInt(1, ovelseKey);
+
+            System.out.println("Beskrivelse av øvelsen: ");
+
+            String beskrivelse = bruker_input.nextLine();
+            register_stmt.setString(2, beskrivelse);
+
+            register_stmt.executeUpdate();
+
+
+            PrintFromDB p = new PrintFromDB();
+            p.connect();
+            sqlstmt = "SELECT * from øvelseutenapparat natural join øvelse WHERE ØvelseID = (select max(ØvelseID) from øvelseutenapparat);";
+            p.printLatestInsertFromTable(sqlstmt);
+        } catch (Exception e){
+            System.out.println("DB error during registrations of øvelseutenapparat");
+        }
+    }
 }
