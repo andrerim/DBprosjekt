@@ -16,10 +16,6 @@ public class RegOekt extends DBConn {
         Date current_date = new Date(system_time);
         Time current_time = new Time(system_time);
         try {
-           // PreparedStatement stmt=conn.prepareStatement("select * from økt");
-           // System.out.println(stmt);
-           // ResultSet rs=stmt.executeQuery();
-           // System.out.println(rs);
             register_stmt = conn.prepareStatement(sqlstmt);
             // Antagelse: Bruker bare nåværende dato, ikke mulig for bruker å skrive inn dato manuelt
             register_stmt.setDate(1, current_date);
@@ -42,14 +38,62 @@ public class RegOekt extends DBConn {
             register_stmt.setString(6, notat_oekt);
 
 
-           register_stmt.executeUpdate();
-           PrintFromDB p = new PrintFromDB();
-           sqlstmt = "SELECT * from økt WHERE ØktID = (select max(ØktID) from øktID);";
-           p.printLatestInsertFromTable(sqlstmt);
+            register_stmt.executeUpdate();
+            PrintFromDB p = new PrintFromDB();
+            p.connect();
+            sqlstmt = "SELECT * from økt WHERE Økt.ØktID = (select max(ØktID) from øktID);";
+            p.printResultFromQuery(sqlstmt);
 
+            System.out.println("Ønsker du å registrere øvelser for økta? (ja/nei");
+            if (bruker_input.nextLine().toLowerCase().equals("ja")){
+                try {
+                    sqlstmt = "SELECT last_insert_id()";
+                    System.out.println("qerror1");
+                    PreparedStatement getLastIdInserted = conn.prepareStatement(sqlstmt);
+                    System.out.println("qerror2");
+                    ResultSet rs = getLastIdInserted.executeQuery();
+                    System.out.println("qerror3");
+                    int oktId = 0;
+                    while (rs.next()){
+                        oktId= rs.getInt(1);
+                    }
+                    if (oktId!=0){
+                        registrerOvelseIOkt(oktId);
+                    }
+                } catch (Exception e){
+                    System.out.println("DB error while gettin latest ID inserted");
+                }
+            }
         } catch (Exception e) {
             System.out.println("DB error during registration of Økt" + e);
         }
+    }
+
+    public void registrerOvelseIOkt(int oktId){
+        String sqlstmt = "SELECT * FROM ØVELSE";
+        PrintFromDB pdb = new PrintFromDB();
+        pdb.connect();
+        pdb.printResultFromQuery(sqlstmt);
+        Scanner bruker_input = new Scanner(System.in);
+        System.out.println("Skriv in ØvelseID du ønsker å registrere");
+        try {
+            int ovelseId = bruker_input.nextInt();
+            sqlstmt = "INSERT INTO øktharøvelse (ØktID, ØvelseID) VALUES (?, ?)";
+
+            PreparedStatement insert_stmt = conn.prepareStatement(sqlstmt);
+
+            insert_stmt.setInt(1, oktId);
+            insert_stmt.setInt(2, ovelseId);
+
+
+            insert_stmt.executeUpdate();
+            PrintFromDB p = new PrintFromDB();
+            p.connect();
+            p.printLatestInsert("øktharøvelse");
+        } catch (Exception e){
+            System.out.println("DB error while registrating øvelse in økt");
+        }
+
     }
 
     public void printOekt(){

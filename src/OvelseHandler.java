@@ -68,7 +68,7 @@ public class OvelseHandler extends DBConn {
 
             PrintFromDB p = new PrintFromDB();
             sqlstmt = "SELECT * from øvelsemedapparat natural join øvelse WHERE ØvelseID = (select max(ØvelseID) from øvelsemedapparat)";
-            p.printLatestInsertFromTable(sqlstmt);
+            p.printResultFromQuery(sqlstmt);
 
         } catch (Exception e) {
             System.out.println("DB error during registration of ovelse");
@@ -92,13 +92,35 @@ public class OvelseHandler extends DBConn {
 
             register_stmt.executeUpdate();
 
-
             PrintFromDB p = new PrintFromDB();
             p.connect();
             sqlstmt = "SELECT * from øvelseutenapparat natural join øvelse WHERE ØvelseID = (select max(ØvelseID) from øvelseutenapparat);";
-            p.printLatestInsertFromTable(sqlstmt);
+            p.printResultFromQuery(sqlstmt);
         } catch (Exception e){
             System.out.println("DB error during registrations of øvelseutenapparat");
+        }
+    }
+
+    public void resultatlogg(){
+        PreparedStatement result_stmt;
+
+        String sqlstmt = "SELECT * FROM ØKT natural join øktharøvelse natural join øvelse WHERE (Dato >= ";
+        Scanner bruker_input = new Scanner(System.in);
+        System.out.println("Spesifiser intervallet du ønsker å se resultater fra: (format YYYY-MM-DD)");
+        System.out.println("Start dato:");
+        String fraDato = bruker_input.nextLine();
+        System.out.println("Til dato: ");
+        String tilDato = bruker_input.nextLine();
+        sqlstmt = sqlstmt + " ' " + fraDato + " ' " + " AND Dato <= " + " ' " + tilDato + "'" + ")";
+        try {
+            //result_stmt = conn.prepareStatement(sqlstmt);
+            //ResultSet rs = result_stmt.executeQuery();
+            PrintFromDB p = new PrintFromDB();
+            p.connect();
+            p.printResultFromQuery(sqlstmt);
+
+        } catch (Exception e){
+            System.out.println("DB error while getting results");
         }
     }
 }
