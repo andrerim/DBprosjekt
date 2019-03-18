@@ -7,7 +7,7 @@ public class Main {
         Scanner bruker_input = new Scanner(System.in);
         nyInput();
         String input_from_user = bruker_input.nextLine();
-
+        int test = 1;
         while (!input_from_user.equals("-1")){
             switch (input_from_user.toLowerCase()) {
                 case "registrer økt": registrerØkt();
