@@ -10,7 +10,7 @@ public class RegOekt extends DBConn {
     public void registrerOekt(){
         Scanner bruker_input = new Scanner(System.in);
 
-        String sqlstmt = "INSERT INTO økt(Dato,Tidspunkt, Varighet, Form, Prestasjon, Notat) "
+        String sqlstmt = "INSERT INTO Økt(Dato,Tidspunkt, Varighet, Form, Prestasjon, Notat) "
                 + "VALUES(?,?,?,?,?,?)";
         long system_time = System.currentTimeMillis();
         Date current_date = new Date(system_time);
@@ -45,7 +45,7 @@ public class RegOekt extends DBConn {
            register_stmt.executeUpdate();
 
         } catch (Exception e) {
-            System.out.println("DB error during registration of Økt");
+            System.out.println("DB error during registration of Økt" + e);
         }
     }
 
