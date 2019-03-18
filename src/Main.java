@@ -47,7 +47,7 @@ public class Main {
 
     public void nyInput() {
         System.out.println("What do yo want to do?");
-        System.out.println("1: Registrer økt / Read økt / Registrer apparat / Registrer øvelse (-1 to exit)");
+        System.out.println("Registrer økt / Read økt / Registrer apparat / Registrer øvelse (-1 to exit)");
     }
     public void user_input_interpeter(String user_input){
 
