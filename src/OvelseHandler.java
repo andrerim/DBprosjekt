@@ -25,7 +25,7 @@ public class OvelseHandler extends DBConn {
             }
 
         }  catch (Exception e){
-            System.out.println("DB error during registration of Øvelse");
+            System.out.println("DB error during registration of Øvelse" + e);
         }
 
         System.out.println("Utføres øvelsen med apparat? (ja/nei)");
@@ -71,7 +71,7 @@ public class OvelseHandler extends DBConn {
             p.printResultFromQuery(sqlstmt);
 
         } catch (Exception e) {
-            System.out.println("DB error during registration of ovelse");
+            System.out.println("DB error during registration of ovelse" + e);
         }
     }
 
@@ -97,13 +97,11 @@ public class OvelseHandler extends DBConn {
             sqlstmt = "SELECT * from øvelseutenapparat natural join øvelse WHERE ØvelseID = (select max(ØvelseID) from øvelseutenapparat);";
             p.printResultFromQuery(sqlstmt);
         } catch (Exception e){
-            System.out.println("DB error during registrations of øvelseutenapparat");
+            System.out.println("DB error during registrations of øvelseutenapparat" + e);
         }
     }
 
     public void resultatlogg(){
-        PreparedStatement result_stmt;
-
         String sqlstmt = "SELECT * FROM ØKT natural join øktharøvelse natural join øvelse WHERE (Dato >= ";
         Scanner bruker_input = new Scanner(System.in);
         System.out.println("Spesifiser intervallet du ønsker å se resultater fra: (format YYYY-MM-DD)");
@@ -113,14 +111,12 @@ public class OvelseHandler extends DBConn {
         String tilDato = bruker_input.nextLine();
         sqlstmt = sqlstmt + " ' " + fraDato + " ' " + " AND Dato <= " + " ' " + tilDato + "'" + ")";
         try {
-            //result_stmt = conn.prepareStatement(sqlstmt);
-            //ResultSet rs = result_stmt.executeQuery();
             PrintFromDB p = new PrintFromDB();
             p.connect();
             p.printResultFromQuery(sqlstmt);
 
         } catch (Exception e){
-            System.out.println("DB error while getting results");
+            System.out.println("DB error while getting results" + e);
         }
     }
 }

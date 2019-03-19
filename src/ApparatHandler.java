@@ -21,7 +21,7 @@ public class ApparatHandler extends DBConn {
             register_stmt.executeUpdate();
             System.out.println("Successfully inserted " + apparatnavn + " into apparat");
         } catch (Exception e){
-            System.out.println("DB error during registration of Apparat");
+            System.out.println("DB error during registration of Apparat" + e);
         }
     }
 
@@ -42,7 +42,7 @@ public class ApparatHandler extends DBConn {
                 }
             }
         } catch (Exception e){
-            System.out.println("DB error while getting apparatID");
+            System.out.println("DB error while getting apparatID" + e);
         }
         return apparatID;
     }

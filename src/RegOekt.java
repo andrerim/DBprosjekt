@@ -41,31 +41,31 @@ public class RegOekt extends DBConn {
             register_stmt.executeUpdate();
             PrintFromDB p = new PrintFromDB();
             p.connect();
-            sqlstmt = "SELECT * from økt WHERE Økt.ØktID = (select max(ØktID) from øktID);";
+            sqlstmt = "SELECT Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat from økt WHERE Økt.ØktID = (select max(ØktID) from økt);";
+            System.out.println("Økt registrert!");
             p.printResultFromQuery(sqlstmt);
 
-            System.out.println("Ønsker du å registrere øvelser for økta? (ja/nei");
+            System.out.println("Ønsker du å registrere øvelser for økta? (ja/nei)");
             if (bruker_input.nextLine().toLowerCase().equals("ja")){
                 try {
                     sqlstmt = "SELECT last_insert_id()";
-                    System.out.println("qerror1");
                     PreparedStatement getLastIdInserted = conn.prepareStatement(sqlstmt);
-                    System.out.println("qerror2");
                     ResultSet rs = getLastIdInserted.executeQuery();
-                    System.out.println("qerror3");
                     int oktId = 0;
                     while (rs.next()){
                         oktId= rs.getInt(1);
                     }
                     if (oktId!=0){
                         registrerOvelseIOkt(oktId);
+                    } else {
+                        System.out.println("Ingen øvelser er registrert! Du må først registrere en øvelse");
                     }
                 } catch (Exception e){
-                    System.out.println("DB error while gettin latest ID inserted");
+                    System.out.println("DB error while gettin latest ID inserted " + e);
                 }
             }
         } catch (Exception e) {
-            System.out.println("DB error during registration of Økt" + e);
+            System.out.println("DB error during registration of Økt " + e);
         }
     }
 
@@ -73,25 +73,36 @@ public class RegOekt extends DBConn {
         String sqlstmt = "SELECT * FROM ØVELSE";
         PrintFromDB pdb = new PrintFromDB();
         pdb.connect();
+        System.out.println("Disse øvelsene er registrert:");
         pdb.printResultFromQuery(sqlstmt);
         Scanner bruker_input = new Scanner(System.in);
-        System.out.println("Skriv in ØvelseID du ønsker å registrere");
         try {
-            int ovelseId = bruker_input.nextInt();
-            sqlstmt = "INSERT INTO øktharøvelse (ØktID, ØvelseID) VALUES (?, ?)";
+            int ovelseId;
+            String registrerFlere;
 
-            PreparedStatement insert_stmt = conn.prepareStatement(sqlstmt);
+            do {
+                System.out.println("Skriv in ØvelseID du ønsker å registrere i økta: ");
+                ovelseId = bruker_input.nextInt();
+                sqlstmt = "INSERT INTO øktharøvelse (ØktID, ØvelseID) VALUES (?, ?)";
+                PreparedStatement insertStmt = conn.prepareStatement(sqlstmt);
 
-            insert_stmt.setInt(1, oktId);
-            insert_stmt.setInt(2, ovelseId);
+                insertStmt.setInt(1, oktId);
+                insertStmt.setInt(2, ovelseId);
 
+                insertStmt.executeUpdate();
+                System.out.println("Ønsker du å registrere flere øvelser? (ja/nei)");
+                Scanner badCode = new Scanner(System.in);
 
-            insert_stmt.executeUpdate();
+                registrerFlere = badCode.nextLine();
+            } while(registrerFlere.equals("ja"));
+
             PrintFromDB p = new PrintFromDB();
             p.connect();
-            p.printLatestInsert("øktharøvelse");
+            String latestInsertStmt = "SELECT * FROM øktharøvelse ";
+            System.out.println("Registrete øvelser i økter: ");
+            p.printResultFromQuery(latestInsertStmt);
         } catch (Exception e){
-            System.out.println("DB error while registrating øvelse in økt");
+            System.out.println("DB error while registrating øvelse in økt" + e);
         }
 
     }
@@ -99,20 +110,13 @@ public class RegOekt extends DBConn {
     public void printOekt(){
         try{
             System.out.println("Hvor mange økter vil du hente?");
-            Scanner antallØkterInput = new Scanner(System.in);
-            int antallØkter = Integer.parseInt(antallØkterInput.nextLine());
-            PreparedStatement stmt = conn.prepareStatement("select Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat from Økt order by Dato, Tidspunkt limit " + antallØkter );
-            ResultSet rs = stmt.executeQuery();
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
-            while (rs.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
-                    if (i > 1) System.out.print("  ");
-                    String columnValue = rs.getString(i);
-                    System.out.print(rsmd.getColumnName(i) + ": " + columnValue) ;
-                }
-                System.out.println(" ");
-            }
+            Scanner antallOkterInput = new Scanner(System.in);
+            int antallOkter = Integer.parseInt(antallOkterInput.nextLine());
+            String sqlstmt = "select Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat from Økt order by Dato, Tidspunkt limit " + antallOkter;
+            PrintFromDB p = new PrintFromDB();
+            p.connect();
+            p.printResultFromQuery(sqlstmt);
+
         } catch (Exception e){
             System.out.println("DB error during retriving Økt" + e);
         }
