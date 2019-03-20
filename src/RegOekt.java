@@ -41,7 +41,7 @@ public class RegOekt extends DBConn {
             register_stmt.executeUpdate();
             PrintFromDB p = new PrintFromDB();
             p.connect();
-            sqlstmt = "SELECT Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat from økt WHERE Økt.ØktID = (select max(ØktID) from økt);";
+            sqlstmt = "SELECT Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat from Økt WHERE Økt.ØktID = (select max(ØktID) from Økt);";
             System.out.println("Økt registrert!");
             p.printResultFromQuery(sqlstmt);
 
@@ -70,7 +70,7 @@ public class RegOekt extends DBConn {
     }
 
     public void registrerOvelseIOkt(int oktId){
-        String sqlstmt = "SELECT * FROM ØVELSE";
+        String sqlstmt = "SELECT * FROM Øvelse";
         PrintFromDB pdb = new PrintFromDB();
         pdb.connect();
         System.out.println("Disse øvelsene er registrert:");
@@ -83,7 +83,7 @@ public class RegOekt extends DBConn {
             do {
                 System.out.println("Skriv in ØvelseID du ønsker å registrere i økta: ");
                 ovelseId = bruker_input.nextInt();
-                sqlstmt = "INSERT INTO øktharøvelse (ØktID, ØvelseID) VALUES (?, ?)";
+                sqlstmt = "INSERT INTO ØktHarØvelse (ØktID, ØvelseID) VALUES (?, ?)";
                 PreparedStatement insertStmt = conn.prepareStatement(sqlstmt);
 
                 insertStmt.setInt(1, oktId);

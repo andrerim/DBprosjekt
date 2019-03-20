@@ -6,7 +6,7 @@ public class ApparatHandler extends DBConn {
 
     public void registerApparat (){
         Scanner bruker_input = new Scanner(System.in);
-        String sqlstmt = "INSERT INTO apparat (Navn, Beskrivelse) VALUES (?, ?)";
+        String sqlstmt = "INSERT INTO Apparat (Navn, Beskrivelse) VALUES (?, ?)";
         try {
             register_stmt = conn.prepareStatement(sqlstmt);
 
@@ -26,7 +26,7 @@ public class ApparatHandler extends DBConn {
     }
 
     public int getApparatID(String apparatNavn){
-        String sqlstmt = "SELECT ApparatID FROM apparat WHERE navn = (?)";
+        String sqlstmt = "SELECT ApparatID FROM Apparat WHERE Navn = (?)";
 
 
         int apparatID = 0;
