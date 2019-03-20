@@ -68,6 +68,7 @@ public class OvelseHandler extends DBConn {
             register_stmt.executeUpdate();
 
             PrintFromDB p = new PrintFromDB();
+            p.connect();
             sqlstmt = "SELECT * from ØvelseMedApparat natural join Øvelse WHERE ØvelseID = (select max(ØvelseID) from ØvelseMedAparat)";
             p.printResultFromQuery(sqlstmt);
 
