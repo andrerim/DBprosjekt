@@ -121,4 +121,18 @@ public class RegOekt extends DBConn {
             System.out.println("DB error during retriving Økt" + e);
         }
     }
+
+    public void printOekt2(){
+        try{
+            System.out.println("Økter med prestasjon over 7");
+            String sqlstmt = "select Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat from Økt WHERE Form>7 order by Form";
+            PrintFromDB p = new PrintFromDB();
+            p.connect();
+            p.printResultFromQuery(sqlstmt);
+
+        } catch (Exception e){
+            System.out.println("DB error during retriving Økt" + e);
+        }
+    }
+
 }

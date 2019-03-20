@@ -8,7 +8,7 @@ public class OvelseHandler extends DBConn {
     public void registrerOvelse(){
         Scanner bruker_input = new Scanner(System.in);
 
-        String sqlstmt = "INSERT INTO øvelse (Navn) VALUES (?)";
+        String sqlstmt = "INSERT INTO Øvelse (Navn) VALUES (?)";
 
         try {
 
@@ -33,13 +33,14 @@ public class OvelseHandler extends DBConn {
 
         if (ovelse_type.equals("ja")){
             registrerOvelseMedApparat(ovelseKey);
+
         } else {
             registrerOvelseUtenApparat(ovelseKey);
         }
     }
 
-    public void registrerOvelseMedApparat(int ovelseKey){
-        String sqlstmt = "INSERT INTO øvelsemedapparat (ØvelseID, ApparatID, AntallKilo, AntallSet) VALUES (?, ?, ?, ?)";
+    private void registrerOvelseMedApparat(int ovelseKey){
+        String sqlstmt = "INSERT INTO ØvelseMedApparat (ØvelseID, ApparatID, AntallKilo, AntallSet) VALUES (?, ?, ?, ?)";
 
         Scanner bruker_input = new Scanner(System.in);
 
@@ -76,7 +77,7 @@ public class OvelseHandler extends DBConn {
     }
 
     public void registrerOvelseUtenApparat(int ovelseKey){
-        String sqlstmt = "INSERT INTO øvelseutenapparat (ØvelseID, Beskrivelse) VALUES (?, ?)";
+        String sqlstmt = "INSERT INTO ØvelseUtenApparat (ØvelseID, Beskrivelse) VALUES (?, ?)";
 
         Scanner bruker_input = new Scanner(System.in);
 
@@ -94,7 +95,7 @@ public class OvelseHandler extends DBConn {
 
             PrintFromDB p = new PrintFromDB();
             p.connect();
-            sqlstmt = "SELECT * from øvelseutenapparat natural join øvelse WHERE ØvelseID = (select max(ØvelseID) from øvelseutenapparat);";
+            sqlstmt = "SELECT * from ØvelseUtenApparat natural join Øvelse WHERE ØvelseID = (select max(ØvelseID) from ØvelseUtenApparat);";
             p.printResultFromQuery(sqlstmt);
         } catch (Exception e){
             System.out.println("DB error during registrations of øvelseutenapparat" + e);
@@ -102,7 +103,7 @@ public class OvelseHandler extends DBConn {
     }
 
     public void resultatlogg(){
-        String sqlstmt = "SELECT * FROM ØKT natural join øktharøvelse natural join øvelse WHERE (Dato >= ";
+        String sqlstmt = "SELECT * FROM ØKT natural join ØktHarØvelse natural join øvelse WHERE (Dato >= ";
         Scanner bruker_input = new Scanner(System.in);
         System.out.println("Spesifiser intervallet du ønsker å se resultater fra: (format YYYY-MM-DD)");
         System.out.println("Start dato:");

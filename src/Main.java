@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Main {
 
 
-    public void user_input_controller(){
+    private void user_input_controller(){
         Scanner bruker_input = new Scanner(System.in);
         nyInput();
         String input_from_user = bruker_input.nextLine();
@@ -17,7 +17,17 @@ public class Main {
                 break;
                 case "registrer øvelse": registrerØvelse();
                 break;
+                case "registrer gruppe": registrerGruppe();
+                break;
                 case "se resultatlogg" : seResultater();
+                break;
+                case "legg til øvelse i gruppe": leggTilOvelseIGruppe();
+                break;
+                case "hent gruppe": hentGruppe();
+                break;
+                case "hent økter med god prestasjon": hentGodPrestasjon();
+                break;
+
             }
             nyInput();
             input_from_user = bruker_input.nextLine();
@@ -39,21 +49,42 @@ public class Main {
         apparat.connect();
         apparat.registerApparat();
     }
-    public void registrerØvelse() {
+    private void registrerØvelse() {
         OvelseHandler ovelse = new OvelseHandler();
         ovelse.connect();
         ovelse.registrerOvelse();
     }
+    private void registrerGruppe() {
+        GruppeHandler gruppe = new GruppeHandler();
+        gruppe.connect();
+        gruppe.registrerGruppe();
+    }
+    private void leggTilOvelseIGruppe() {
+        GruppeHandler gruppe = new GruppeHandler();
+        gruppe.connect();
+        gruppe.leggTilOvelseIGruppe();
+    }
+    private void hentGruppe() {
+        GruppeHandler gruppe = new GruppeHandler();
+        gruppe.connect();
+        gruppe.hentGruppe();
+    }
 
-    public void seResultater(){
+    private void seResultater(){
         OvelseHandler ovelse = new OvelseHandler();
         ovelse.connect();
         ovelse.resultatlogg();
     }
-    public void nyInput() {
+    private void nyInput() {
         System.out.println("Hva ønsker du å gjøre?");
         System.out.println("Registrer økt / Hent økter / Registrer apparat / Registrer øvelse / " +
-                "Se resultatlogg (-1 to exit)");
+                "Se resultatlogg");
+        System.out.println("/ legg til øvelse i gruppe / hent gruppe / hent økter med god prestasjon (-1 to exit)");
+    }
+    private void hentGodPrestasjon() {
+        RegOekt regOekt = new RegOekt();
+        regOekt.connect();
+        regOekt.printOekt2();
     }
 
     public static void main(String[] args){
