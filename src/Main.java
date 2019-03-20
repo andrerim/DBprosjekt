@@ -79,7 +79,8 @@ public class Main {
         System.out.println("Hva ønsker du å gjøre?");
         System.out.println("Registrer økt / Hent økter / Registrer apparat / Registrer øvelse / " +
                 "Se resultatlogg");
-        System.out.println("/ legg til øvelse i gruppe / hent gruppe / hent økter med god prestasjon (-1 to exit)");
+        System.out.println("/ Registrer gruppe / legg til øvelse i gruppe / hent gruppe / " +
+                "hent økter med god prestasjon (-1 to exit)");
     }
     private void hentGodPrestasjon() {
         RegOekt regOekt = new RegOekt();

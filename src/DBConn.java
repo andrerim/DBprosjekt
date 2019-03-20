@@ -6,7 +6,7 @@ public abstract class DBConn {
     }
     public void connect() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(
                     "jdbc:mysql://mysql.stud.ntnu.no/fs_tdt4145_1_gruppe145?user=fs_tdt4145_1_gruppe145&password=datdat123"
                     , "fs_tdt4145_1_gruppe145", "datdat123");

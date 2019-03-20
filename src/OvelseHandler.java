@@ -69,7 +69,7 @@ public class OvelseHandler extends DBConn {
 
             PrintFromDB p = new PrintFromDB();
             p.connect();
-            sqlstmt = "SELECT * from ØvelseMedApparat natural join Øvelse WHERE ØvelseID = (select max(ØvelseID) from ØvelseMedAparat)";
+            sqlstmt = "SELECT * from ØvelseMedApparat natural join Øvelse WHERE ØvelseID = (select max(ØvelseID) from ØvelseMedApparat)";
             p.printResultFromQuery(sqlstmt);
 
         } catch (Exception e) {
@@ -104,7 +104,7 @@ public class OvelseHandler extends DBConn {
     }
 
     public void resultatlogg(){
-        String sqlstmt = "SELECT * FROM Økt natural join ØktHarØvelse natural join Øvelse WHERE (Dato >= ";
+        String sqlstmt = "SELECT Navn, Dato, Tidspunkt, Varighet, Form, Prestasjon, Notat FROM Økt natural join ØktHarØvelse natural join Øvelse WHERE (Dato >= ";
         Scanner bruker_input = new Scanner(System.in);
         System.out.println("Spesifiser intervallet du ønsker å se resultater fra: (format YYYY-MM-DD)");
         System.out.println("Start dato:");

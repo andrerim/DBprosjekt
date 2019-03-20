@@ -98,7 +98,7 @@ public class RegOekt extends DBConn {
 
             PrintFromDB p = new PrintFromDB();
             p.connect();
-            String latestInsertStmt = "SELECT * FROM øktharøvelse ";
+            String latestInsertStmt = "SELECT * FROM ØktHarØvelse ";
             System.out.println("Registrete øvelser i økter: ");
             p.printResultFromQuery(latestInsertStmt);
         } catch (Exception e){
